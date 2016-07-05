@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import net.sf.json.JSONObject;
 import service.IStudentService;
 import service.impl.StudentServiceImpl;
 
+@WebServlet(urlPatterns="/adminjson")
 public class AdminJson extends HttpServlet{
 
 	private static final long serialVersionUID = 5515189860781349858L;
@@ -25,7 +27,7 @@ public class AdminJson extends HttpServlet{
 		
 		// 判断是否登录，如果session为空跳转至登录页！
 		if (req.getSession().getAttribute("userbean") == null) {
-			resp.sendRedirect(req.getContextPath() + "/servlet/login");
+			resp.sendRedirect(req.getContextPath() + "/login");
 			return;
 		}
 		

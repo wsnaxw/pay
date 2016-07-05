@@ -21,7 +21,7 @@
 </head>
 <body>
 	<% if(session.getAttribute("userbean") == null){
-		response.sendRedirect(path + "/servlet/login");
+		response.sendRedirect(path + "/login");
 		return;
 	}%>
 
@@ -33,8 +33,7 @@
     <ul class="nav btn-group">
         <li class="btn btn-inverse"><a title="" href="#"><i class="icon icon-user"></i> <span
                 class="text">Profile</span></a></li>
-        <li class="btn btn-inverse"><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span
-                class="text">Logout</span></a></li>
+        <li class="btn btn-inverse"><a title="" href="<%= path %>/signout"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
     </ul>
 </div>
 
@@ -69,7 +68,7 @@
         <div class="row-fluid">
             <div class="span12">
                 <!-- TABLE -->
-                <table data-toggle="table" data-click-to-select="true"
+                <table id="table" data-toggle="table" data-click-to-select="true"
                        data-classes="table table-hover table-condensed" data-search="true"
                        data-show-refresh="true" data-pagination="true" data-show-columns="true"
                        data-height="810" data-page-list="[5, 10, 20, 50, 100, 200]"
@@ -99,18 +98,22 @@
 		      <div class="modal-header">
 		        <h4 class="modal-title" id="importLabel">导入Excel数据</h4>
 		      </div>
+		      
+		      <form action="<%= path %>/importexcel" method="post" enctype="multipart/form-data">
 		      <div class="modal-body">
 				<div class="control-group">
 					<label class="control-label">File upload input</label>
 					<div class="controls">
-						<input type="file" />
+						<input type="file" name="file" />
 					</div>
 				</div>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-		        <button type="button" class="btn btn-primary">导入</button>
+		        <button type="submit" class="btn btn-primary">导入</button>
 		      </div>
+		      </form>
+		      
 		    </div>
 		  </div>
 		</div>
@@ -141,6 +144,14 @@
 <script src="<%=basePath%>assets/js/bootstrap-table.min.js"></script>
 <!-- Latest compiled and minified Locales -->
 <script src="<%=basePath%>assets/js/bootstrap-table-zh-CN.js"></script>
+
+<script type="text/javascript">
+$(function () {
+    $(window).resize(function () {
+        $('#table').bootstrapTable('resetView');
+    });
+});
+</script>
 
 </body>
 </html>

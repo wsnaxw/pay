@@ -3,6 +3,7 @@ package web.controller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import domain.Student;
 import service.IStudentService;
 import service.impl.StudentServiceImpl;
 
+@WebServlet(urlPatterns="/userlogin")
 public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 940710676364386627L;
@@ -31,8 +33,7 @@ public class LoginServlet extends HttpServlet {
 
 		// 判断用户是否存在
 		if (user == null) {
-			String message = String.format("对不起，用户名或密码有误！！请重新登录！2秒后为您自动跳到登录页面！！<meta http-equiv='refresh' content='2;url=%s'",
-			        req.getContextPath() + "/servlet/login");
+			String message = String.format("对不起，用户名或密码有误！！请重新登录！2秒后为您自动跳到登录页面！！<meta http-equiv='refresh' content='2;url=%s'",req.getContextPath() + "/login");
 			req.setAttribute("message", message);
 			req.getRequestDispatcher("/message.jsp").forward(req, resp);
 			return;
@@ -43,7 +44,7 @@ public class LoginServlet extends HttpServlet {
 //		String message = String.format("恭喜：%s,登陆成功！本页将在1秒后跳到首页！！<meta http-equiv='refresh' content='1; url=%s'", user.getName(),req.getContextPath() + "/index.jsp");
 //		req.setAttribute("message", message);
 //		req.getRequestDispatcher("/message.jsp").forward(req, resp);
-		resp.sendRedirect(req.getContextPath() + "/servlet/User");
+		resp.sendRedirect(req.getContextPath() + "/user");
 	}
 
 	@Override

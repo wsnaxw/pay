@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Unicorn Admin</title>
+    <title>User Panel</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="<%=basePath%>assets/css/bootstrap.min.css"/>
@@ -35,17 +35,11 @@
         }
     </style>
     
-    <script>
-	    function Logout(){
-	        //访问LogoutServlet注销当前登录的用户
-	        window.location.href="${pageContext.request.contextPath}/servlet/LoginOutSerlvet";
-	    }
-    </script>
 </head>
 <body>
 
 	<% if(session.getAttribute("user") == null){
-		response.sendRedirect(path + "/servlet/login");
+		response.sendRedirect(path + "/login");
 		return;
 	}%>
 
@@ -69,8 +63,7 @@
         <!--</ul>-->
         <!--</li>-->
         <!--<li class="btn btn-inverse"><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>-->
-        <li class="btn btn-inverse"><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span
-                class="text">Logout</span></a></li>
+        <li class="btn btn-inverse"><a title="" href="<%= path %>/signout"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
     </ul>
 </div>
 
@@ -193,7 +186,7 @@
                     </div>
                     <div class="widget-content">
                         <table id="table" data-toggle="table" data-click-to-select="true" data-classes="table table-hover table-condensed" data-search="false"
-                               data-show-refresh="false" data-pagination="false" data-show-columns="false" data-url="<%= path %>/servlet/userJson?Idcard=<%= user.getIDCard() %>"> <!-- data-url="data.json" data-page-list="[5, 10, 20, 50, 100, 200]"-->
+                               data-show-refresh="false" data-pagination="false" data-show-columns="false" data-url="<%= path %>/userjson?Idcard=<%= user.getIDCard() %>"> <!-- data-url="data.json" data-page-list="[5, 10, 20, 50, 100, 200]"-->
                             <thead>
                             <tr>
                                 <th data-field="ID_Card" data-align="center">身份证</th>
@@ -208,10 +201,10 @@
                                 <th data-field="direction" data-align="center">学费</th>
                                 <th data-field="lodging" data-align="center">住宿费</th>
                                 <th data-field="bookFees" data-align="center">书本费</th>
+                                <th data-align="center" data-formatter="paybutton" data-events="operateEvents">缴费</th>
                             </tr>
                             </thead>
                         </table>
-                        <button class="btn btn-success">缴费</button>
                     </div>
                 </div>
             </div>
@@ -416,24 +409,40 @@
 <!-- Latest compiled and minified Locales -->
 <script src="<%=basePath%>assets/js/bootstrap-table-zh-CN.js"></script>
 
-<!-- <script>
-
-$(function(){
-	var $table = $('#table');
-		
-	$.ajax({
-	    type: "POST",
-	    url: "<%= path %>/servlet/userJson",
-	    data: {Idcard:'<%= user.getIDCard() %>'},
-	    dataType: "json",
-	    success: function(data){
-					// $table.bootstrapTable({data: data});
-	 	   			console.log(JSON.stringify(data));
-	 	   			console.log(JSON.stringify(j));
-	             }
-	});
+<script type="text/javascript">
+$(function () {
+    $(window).resize(function () {
+        $('#table').bootstrapTable('resetView');
+    });
 });
 
+window.operateEvents = {
+        'click .submit': function (e, value, row) {
+        	console.log('You click like action, row: ' + JSON.stringify(row));
+        },
+        'click .remove': function (e, value, row) {
+            alert('You click remove action, row: ' + JSON.stringify(row));
+        }
+    };
+
+    function paybutton(value, row, index) {
+    	
+    	console.log(JSON.stringify(row))
+    	//console.log(row.PaymentStatus)
+    	
+    	if (row.PaymentStatus == '未缴费') {
+    		return [
+    	            '<a href="<%=basePath%>payment?IdCard=<%= user.getIDCard() %>" class="btn btn-success btn-xs submit" role="button">缴费</a>'
+    	        ].join('');
+		}else if (row.PaymentStatus == '已缴费') {
+	        return [
+	                '<button type="button" class="btn btn-danger btn-xs submit" disabled="disabled">缴费</button>'
+	            ].join('');
+		}
+    	
+
+    }
 </script>
- --></body>
+
+</body>
 </html>

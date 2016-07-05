@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,8 @@ import service.impl.StudentServiceImpl;
  * @author jalena
  *
  */
+
+@WebServlet(urlPatterns="/userjson")
 public class UserJson extends HttpServlet {
 
 	private static final long serialVersionUID = 128500229609623582L;
@@ -30,7 +33,7 @@ public class UserJson extends HttpServlet {
 		
 		// 判断用户是否登陆
 		if (req.getSession().getAttribute("user") == null) {
-			resp.sendRedirect(req.getContextPath() + "/servlet/login");
+			resp.sendRedirect(req.getContextPath() + "/login");
 			return;
 		}
 

@@ -18,7 +18,7 @@
             <img src="<%=basePath%>assets/img/logo.png" alt="" />
         </div>
         <div id="loginbox">
-            <form id="loginform" class="form-vertical" action="<%=path%>/servlet/adminlogin" method="post"/>
+            <form id="loginform" class="form-vertical" action="<%=path%>/adminlogin"/>
 				<p>管理员登陆</p>
                 <div class="control-group">
                     <div class="controls">
@@ -40,7 +40,7 @@
                 </div>
             </form>
 
-            <form id="recoverform" action="<%=path%>/servlet/LoginServlet" class="form-vertical" method="post"/>
+            <form id="recoverform" action="<%=path%>/userlogin" class="form-vertical" method="post"/>
 				<p>学生缴费登陆</p>
 				<div class="control-group">
                     <div class="controls">
